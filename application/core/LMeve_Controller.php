@@ -32,26 +32,28 @@ abstract class LMeve_Controller extends CI_Controller {
         session_start();
 
         $this->load->library('session');
-        $this->load->model('user');
+        $this->load->model('userModel');
         $this->config->load('lmconfig');
+        $this->load->helper('permission_helper.php');
 
         $granted = $this->session->userdata('granted');
 
-        $this->data['LM_APP_NAME'] = '';
-        $this->data['lmver'] = '';
-        $this->data['stylesheet'] = $this->user->getDefaultCss();
+        $this->data['LM_APP_NAME'] = $this->config->item('LM_APP_NAME');
+        $this->data['lmver'] = $this->config->item('LM_VERSION');
+        $this->data['stylesheet'] = $this->userModel->getDefaultCss();
 
         $this->loadCsrf();
-        $this->loadMenu();
-        $this->loadSidebar();
 
         if (!$granted && $_SERVER['REQUEST_URI'] !== '/main.html' && $_SERVER['REQUEST_URI'] !== '/main/login.html') {
             //TODO: Make this configurable
             redirect('main');
         } else if ($granted) {
-            $user = $this->user->getUser($this->session->userdata('username'));
+            $user = $this->userModel->getUser($this->session->userdata('username'));
             $this->data['stylesheet'] = $user->css;
             $this->data['username'] = $user->login;
+            $this->data['permissions'] = array();
+            $this->loadMenu($this->config->item('LM_MENU'));
+            $this->loadSidebar();
         }
     }
 
@@ -61,7 +63,7 @@ abstract class LMeve_Controller extends CI_Controller {
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() !== false) {
-            $user = $this->user->authUser($this->input->post('login'), $this->input->post('password'));
+            $user = $this->userModel->authUser($this->input->post('login'), $this->input->post('password'));
             if ($user !== false) {
                 $this->session->set_userdata('granted', true);
                 $this->session->set_userdata('username', $user->login);
@@ -84,8 +86,18 @@ abstract class LMeve_Controller extends CI_Controller {
         $this->data['csrf_token_hash'] = $this->security->get_csrf_hash();
     }
 
-    public function loadMenu() {
-        $this->data['menu'] = '';
+    public function loadMenu($menuConfigs) {
+        $menu = '';
+
+        foreach ($menuConfigs as $menuConfig) {
+            $class = 'menu';
+            if ($this->getName() === strtolower($menuConfig['name'])) {
+                $class = 'menua';
+            }
+            $menu = $menu . '<td class="' . $class . '"> <a href="' . $menuConfig['path'] . '">' . $menuConfig['name'] . '</a><br></td>';
+        }
+
+        $this->data['menu'] = $menu;
     }
 
     public function loadSidebar() {

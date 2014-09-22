@@ -21,7 +21,7 @@
  *
  * @author maurerit
  */
-class User extends CI_Model {
+class UserModel extends CI_Model {
 
     function __construct() {
         parent::__construct();

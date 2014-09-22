@@ -63,6 +63,11 @@ $EC_PRICE_TO_USE_FOR_MAN = array('type' => 'sell', 'price' => 'min');
 //What EVE Central price to use for profit explorer market price
 $EC_PRICE_TO_USE_FOR_SELL = array('type' => 'sell', 'price' => 'min');
 
+$LM_MENU = array(
+    array('path' => '/welcome.html', 'name' => 'Welcome'),
+    array('path' => '/queue.html', 'name' => 'Queue')
+);
+
 /* * ************************************************************************************************************************************
  *                                       Now set all of the above into the $config array                                              *
  * ************************************************************************************************************************************ */
@@ -102,4 +107,5 @@ $config['LM_CCPWGL_USEPROXY'] = $LM_CCPWGL_USEPROXY;
 $config['LM_CCPWGL_URL'] = $LM_CCPWGL_URL;
 $config['EC_PRICE_TO_USE_FOR_MAN'] = $EC_PRICE_TO_USE_FOR_MAN;
 $config['EC_PRICE_TO_USE_FOR_SELL'] = $EC_PRICE_TO_USE_FOR_SELL;
+$config['LM_MENU'] = $LM_MENU;
 ?>

@@ -46,16 +46,7 @@
                             <tr>
 
                                 <?php
-                                echo $menu
-//                                //draw menu
-//                                if (!isset($_GET['id'])) {
-//                                    $id = getprefs();
-//                                    $id = $id['defaultPage'];
-//                                } else {
-//                                    $id = $_GET['id'];
-//                                }
-//
-//                                menu($id);
+                                echo $menu;
                                 ?>
                             </tr>
                         </table>
@@ -67,21 +58,16 @@
                         <table border="0" cellspacing="0" cellpadding="0" width="100%">
                             <tr><td class="tab-links" style="width: 20%; vertical-align: top; padding: 5px;">
                                     <?php
-                                    echo $sidebar
-//                                    //draw links from db
-//                                    $sidebar = getConfigItem('leftSidebar', 'Administrators can freely edit this sidebar.');
-//
-//                                    echo(stripslashes(htmlspecialchars_decode($sidebar)));
-//
-//                                    if (checkrights("Administrator")) {
-                                    ?>
-                                    <!--div style="text-align: center;"><hr><form method="get" action="">
-                                            <input type="hidden" name="id" value="5">
-                                            <input type="hidden" name="id2" value="6">
-                                            <input type="hidden" name="nr" value="new">
-                                            <input type="submit" value="Edit">
-                                        </form></div-->
-                                    <?php //}  ?>
+                                    echo $sidebar;
+                                    if (has_permission($permissions, "Administrator")) {
+                                        ?>
+                                        <div style="text-align: center;"><hr><form method="get" action="">
+                                                <input type="hidden" name="id" value="5">
+                                                <input type="hidden" name="id2" value="6">
+                                                <input type="hidden" name="nr" value="new">
+                                                <input type="submit" value="Edit">
+                                            </form></div>
+                                    <?php } ?>
                                 </td>
                                 <td width="80%" class="tab-main" id="tab-main" valign="top">
                                     <?php echo $body ?>
