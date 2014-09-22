@@ -54,7 +54,7 @@ if (defined('ENVIRONMENT')) {
  * as this file.
  *
  */
-$system_path = '/var/www/lmeve-ci/system';
+$system_path = '../system';
 
 /*
  * ---------------------------------------------------------------
@@ -70,7 +70,7 @@ $system_path = '/var/www/lmeve-ci/system';
  * NO TRAILING SLASH!
  *
  */
-$application_folder = '/var/www/lmeve-ci/application';
+$application_folder = '../application';
 
 /*
  * --------------------------------------------------------------------

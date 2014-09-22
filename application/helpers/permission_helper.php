@@ -18,7 +18,7 @@
 
 function has_permission($permissionList, $desiredPermission) {
     foreach ($permissionList as $permission) {
-        if ($permission === $desiredPermission) {
+        if ($permission->rightName === $desiredPermission) {
             return true;
         }
     }
@@ -30,7 +30,7 @@ function has_permissions($permissionList, $desiredPermissions) {
 
     foreach ($permissionList as $permission) {
         foreach ($permissions as $desiredPermission) {
-            if ($permission === $desiredPermission) {
+            if ($permission->rightName === $desiredPermission) {
                 return true;
             }
         }

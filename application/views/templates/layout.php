@@ -10,7 +10,7 @@
         <link rel="icon" href="favicon.ico" type="image/ico">
         <script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="/js/jquery-ui-1.10.3.custom.min.js"></script>
-        <script type="text/javascript" src="/js/chart.js/Chart.min.js"></script>
+        <script type="text/javascript" src="/js/Chart.min.js"></script>
         <script type="text/javascript" src="/js/ajax.js"></script>
         <script type="text/javascript" src="/js/skrypty.js"></script>
         <script type="text/javascript">
@@ -83,7 +83,7 @@
             <?php
             include("copyright.php");
             ?>
-            <script type="text/javascript" src="resizer.js"></script>
+            <script type="text/javascript" src="js/resizer.js"></script>
         </center>
     </body>
 </html>

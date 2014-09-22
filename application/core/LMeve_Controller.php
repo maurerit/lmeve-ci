@@ -31,19 +31,31 @@ abstract class LMeve_Controller extends CI_Controller {
         parent::__construct();
         session_start();
 
+        if (ENVIRONMENT === "development") {
+            $this->output->enable_profiler(TRUE);
+        }
+        
+        $this->benchmark->mark('LMeveControllerLoad_start');
         $this->load->library('session');
         $this->load->model('userModel');
         $this->config->load('lmconfig');
         $this->load->helper('permission_helper.php');
+        $this->loadCsrf();
+        $this->benchmark->mark('LMeveControllerLoad_end');
 
         $granted = $this->session->userdata('granted');
 
+        $this->benchmark->mark('LMeveControllerSetData_start');
         $this->data['LM_APP_NAME'] = $this->config->item('LM_APP_NAME');
         $this->data['lmver'] = $this->config->item('LM_VERSION');
         $this->data['stylesheet'] = $this->userModel->getDefaultCss();
+        $this->data['year'] = date('Y');
+        $this->data['month'] = date('m');
+        $this->data['THOUSAND_SEP'] = $this->config->item('THOUSAND_SEP');
+        $this->data['DECIMAL_SEP'] = $this->config->item('DECIMAL_SEP');
+        $this->benchmark->mark('LMeveControllerSetData_end');
 
-        $this->loadCsrf();
-
+        $this->benchmark->mark('LMeveControllerSession_start');
         if (!$granted && $_SERVER['REQUEST_URI'] !== '/main.html' && $_SERVER['REQUEST_URI'] !== '/main/login.html') {
             //TODO: Make this configurable
             redirect('main');
@@ -51,10 +63,11 @@ abstract class LMeve_Controller extends CI_Controller {
             $user = $this->userModel->getUser($this->session->userdata('username'));
             $this->data['stylesheet'] = $user->css;
             $this->data['username'] = $user->login;
-            $this->data['permissions'] = array();
+            $this->data['permissions'] = $this->userModel->getPermissions($user->userID);
             $this->loadMenu($this->config->item('LM_MENU'));
             $this->loadSidebar();
         }
+        $this->benchmark->mark('LMeveControllerSession_end');
     }
 
     public function login() {
@@ -87,6 +100,7 @@ abstract class LMeve_Controller extends CI_Controller {
     }
 
     public function loadMenu($menuConfigs) {
+        $this->benchmark->mark('LMeveControllerLoadMenu_start');
         $menu = '';
 
         foreach ($menuConfigs as $menuConfig) {
@@ -98,6 +112,7 @@ abstract class LMeve_Controller extends CI_Controller {
         }
 
         $this->data['menu'] = $menu;
+        $this->benchmark->mark('LMeveControllerLoadMenu_end');
     }
 
     public function loadSidebar() {

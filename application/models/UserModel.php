@@ -49,6 +49,17 @@ class UserModel extends CI_Model {
         return false;
     }
 
+    public function getPermissions($userId) {
+        return $this->db
+                        ->select("lmrights.rightName")
+                        ->from($this->config->item('USERSTABLE'))
+                        ->join("lmuserroles", $this->config->item('USERSTABLE') . ".userID=lmuserroles.userID")
+                        ->join("lmrolerights", "lmuserroles.roleID=lmrolerights.roleID")
+                        ->join("lmrights", "lmrolerights.rightID=lmrights.rightID")
+                        ->where($this->config->item('USERSTABLE') . ".userID", $userId)
+                        ->get()->result();
+    }
+
     public function getCss($userID) {
         $sql = "SELECT `css` FROM `lmusers` WHERE `userID`=?;";
         return $this->db->query($sql, array($userID));
