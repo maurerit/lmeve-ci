@@ -28,7 +28,7 @@
     $pointsDisplayed = false;
     $rights_viewallchars = has_permissions($permissions, "Administrator,ViewAllCharacters");
     $rights_edithours = has_permissions($permissions, "Administrator,EditHoursPerPoint");
-    
+
     function pointshrefedit($nr) {
         echo("<a href=\"/points/edit/$nr\" title=\"Click to edit this activity\">");
     }
@@ -76,25 +76,23 @@
                                     </td></tr>
                                 <?php foreach ($points as $point): ?>
                                     <tr><td>
-                                            <?php if ($rights_edithours) {
+                                            <?php
+                                            if ($rights_edithours) {
                                                 pointshrefedit($point->activityID);
+                                                echo $point->activityName;
+                                                echo "</a>";
                                             }
-                                            echo $point->activityName;
-                                            if ($rights_edithours):
-                                                ?>
-                                                </a>
-                                            <?php endif ?>
+                                            ?>
                                         </td><td>
-                                            <?php if ($rights_edithours) {
+                                            <?php
+                                            if ($rights_edithours) {
                                                 pointshrefedit($point->activityID);
+                                                echo $point->hrsPerPoint;
+                                                echo "</a>";
                                             }
-                                            echo $point->hrsPerPoint;
-                                            if ($rights_edithours):
-                                                ?>
-                                                </a>
-                                            <?php endif; ?>
+                                            ?>
                                         </td></tr>
-                                <?php endforeach; ?>
+                            <?php endforeach; ?>
                             </table>
 
                             <strong>1 point = <?php echo number_format($ONEPOINT, 2, $DECIMAL_SEP, $THOUSAND_SEP) ?> ISK</strong>
@@ -102,10 +100,10 @@
                                 <input type="button" value="Edit" onclick="location.href = '?id=5&id2=0';">
                             <?php endif; ?>
                             <br/>
-                            <?php
-                            $pointsDisplayed = true;
-                        endif;
-                        ?>
+        <?php
+        $pointsDisplayed = true;
+    endif;
+    ?>
 
                     </td><td width="60%" style="vertical-align: top;">
 
@@ -123,7 +121,7 @@
                                     </th><th>
                                         Hours
                                     </th></tr>
-                                <?php foreach ($stats[$corp->corporationID] as $stat): ?>
+                                        <?php foreach ($stats[$corp->corporationID] as $stat): ?>
                                     <tr><td>
                                             <?php echo($stat->activityName) ?>
                                         </td><td style="text-align: right;">
@@ -132,24 +130,24 @@
                                             $sumjobs+=$stat->jobs;
                                             ?>
                                         </td><td style="text-align: right;">
-                                            <?php
-                                            echo(number_format($stat->hours, 0, $DECIMAL_SEP, $THOUSAND_SEP));
-                                            $sumstat+=$stat->hours;
-                                            ?>
+                                    <?php
+                                    echo(number_format($stat->hours, 0, $DECIMAL_SEP, $THOUSAND_SEP));
+                                    $sumstat+=$stat->hours;
+                                    ?>
                                         </td></tr>
-                                <?php endforeach; ?>
+                                        <?php endforeach; ?>
                                 <tr><th>
                                         TOTAL:
                                     </th><th style="text-align: right;">
-                                        <?php echo(number_format($sumjobs, 0, $DECIMAL_SEP, $THOUSAND_SEP)); ?>
+                            <?php echo(number_format($sumjobs, 0, $DECIMAL_SEP, $THOUSAND_SEP)); ?>
                                     </th><th style="text-align: right;">
-                                        <?php echo(number_format($sumstat, 0, $DECIMAL_SEP, $THOUSAND_SEP)); ?>
+        <?php echo(number_format($sumstat, 0, $DECIMAL_SEP, $THOUSAND_SEP)); ?>
                                     </th></tr>
                             </table>
-                        <?php endif ?>
+    <?php endif ?>
                     </td></tr></table>
         </div>                        
-    </div><!--line 198 of 00.php from original lmeve.
+    </div><!--line 198 of 00.php from original lmeve.-->
 
 
 <?php endforeach; ?>

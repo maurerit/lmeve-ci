@@ -31,7 +31,7 @@ class Timesheet extends LMeve_Controller {
     }
 
     public function getName() {
-        
+        return 'timesheet';
     }
 
 }
