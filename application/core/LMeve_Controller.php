@@ -58,6 +58,7 @@ abstract class LMeve_Controller extends CI_Controller {
         $this->benchmark->mark('LMeveControllerSession_start');
         if (!$granted && $_SERVER['REQUEST_URI'] !== '/main.html' && $_SERVER['REQUEST_URI'] !== '/main/login.html') {
             //TODO: Make this configurable
+            
             redirect('main');
         } else if ($granted) {
             $user = $this->userModel->getUser($this->session->userdata('username'));
@@ -108,7 +109,8 @@ abstract class LMeve_Controller extends CI_Controller {
             if ($this->getName() === strtolower($menuConfig['name'])) {
                 $class = 'menua';
             }
-            $menu = $menu . '<td class="' . $class . '"> <a href="' . $menuConfig['path'] . '">' . $menuConfig['name'] . '</a><br></td>';
+            if (has_permissions($this->data['permissions'], "Administrator,".$menuConfig['rootPerm']))
+                $menu = $menu . '<td class="' . $class . '"> <a href="' . $menuConfig['path'] . '">' . $menuConfig['name'] . '</a><br></td>';
         }
 
         $this->data['menu'] = $menu;
