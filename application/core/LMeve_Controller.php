@@ -39,7 +39,7 @@ abstract class LMeve_Controller extends CI_Controller {
         $this->load->library('session');
         $this->load->model('userModel');
         $this->config->load('lmconfig');
-        $this->load->helper('permission_helper.php');
+        $this->load->helper('permission_helper');
         $this->loadCsrf();
         $this->benchmark->mark('LMeveControllerLoad_end');
 

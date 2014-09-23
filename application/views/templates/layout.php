@@ -83,7 +83,7 @@
             <?php
             include("copyright.php");
             ?>
-            <script type="text/javascript" src="js/resizer.js"></script>
+            <script type="text/javascript" src="/js/resizer.js"></script>
         </center>
     </body>
 </html>

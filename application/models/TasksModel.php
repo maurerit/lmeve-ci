@@ -39,7 +39,7 @@ class TasksModel extends CI_Model {
         $sql = "SELECT *,ROUND((points*$onepointValue),2) as wage FROM (
       SELECT `characterID`,`name`,`activityName`,SUM(TIME_TO_SEC(TIMEDIFF(`endProductionTime`,`beginProductionTime`))/3600)/hrsPerPoint AS points
       FROM `apiindustryjobs` aij
-      JOIN " . $this->config->item('LM_EVEDB') . ".`ramActivities` rac
+      JOIN `" . $this->config->item('LM_EVEDB') . "`.`ramActivities` rac
       ON aij.activityID=rac.activityID
       JOIN cfgpoints cpt
       ON aij.activityID=cpt.activityID

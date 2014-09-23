@@ -22,7 +22,72 @@
  * @author maurerit
  */
 class QueueModel extends CI_Model {
-    //put your code here
+
+    function __construct() {
+        parent::__construct();
+        $this->config->load('lmconfig');
+    }
+
+    public function getQueueItem($id) {
+        return $this->db
+                ->select("lmqueue.*,invTypes.typeName")
+                ->from('lmqueue')
+                ->join("`".$this->config->item('LM_EVEDB')."`.invTypes","lmqueue.typeID = invTypes.typeID")
+                ->where('queueId',$id)->get()->row();
+    }
+
+    public function getQueue($year, $month) {
+        $sql = $this->queueQuery($year, $month);
+        return $this->db->query($sql)->result();
+    }
+
+    private function queueQuery($year, $month) {
+        return "SELECT a.*, b.runsDone,b.jobsDone,c.jobsSuccess,d.jobsCompleted,e.runsCompleted
+                  FROM (
+                        SELECT itp.typeName, lmt.typeID, lmt.queueId, rac.activityName, lmt.activityID, lmt.runs
+                          FROM lmqueue AS lmt
+                          JOIN `" . $this->config->item('LM_EVEDB') . "`.invTypes AS itp ON lmt.typeID = itp.typeID
+                          JOIN `" . $this->config->item('LM_EVEDB') . "`.ramActivities AS rac ON lmt.activityID=rac.activityID
+                         WHERE ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
+                        ) as a
+                  LEFT JOIN (
+                             SELECT lmt.queueId, SUM(aij.runs)*itp.portionSize AS runsDone, COUNT(*) AS jobsDone
+                               FROM lmqueue AS lmt
+                               JOIN `" . $this->config->item('LM_EVEDB') . "`.invTypes AS itp ON lmt.typeID=itp.typeID
+                               JOIN apiindustryjobs aij ON lmt.typeID=aij.outputTypeID AND lmt.activityID=aij.activityID
+                              WHERE date_format(beginProductionTime, '%Y%m') = '201409'
+                                AND ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
+                              GROUP BY lmt.typeID, lmt.activityID, lmt.queueId
+                             ) AS b ON a.queueId = b.queueId
+                  LEFT JOIN (
+                             SELECT lmt.queueId, COUNT(*) AS jobsSuccess
+                               FROM lmqueue AS lmt
+                               JOIN apiindustryjobs AS aij ON lmt.typeID=aij.outputTypeID AND lmt.activityID=aij.activityID
+                              WHERE aij.completed=1 AND aij.completedStatus=1 AND date_format(beginProductionTime, '%Y%m') = '${year}${month}'
+                                AND ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
+                              GROUP BY lmt.typeID, lmt.activityID, lmt.queueId
+                             ) AS c on a.queueId = c.queueId
+                  LEFT JOIN (
+                             SELECT lmt.queueId, COUNT(*) AS jobsCompleted, SUM(aij.runs) * itp.portionSize AS runsCompleted
+                               FROM lmqueue AS lmt
+                               JOIN apiindustryjobs AS aij ON lmt.typeID=aij.outputTypeID AND lmt.activityID=aij.activityID
+                               JOIN `" . $this->config->item('LM_EVEDB') . "`.invTypes itp ON lmt.typeID=itp.typeID
+                              WHERE aij.completed=1 AND date_format(beginProductionTime, '%Y%m') = '${year}${month}'
+                                AND ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
+                              GROUP BY lmt.typeID, lmt.activityID, lmt.queueId
+                             ) AS d on a.queueId = d.queueId
+                  LEFT JOIN (
+                             SELECT lmt.queueId, SUM(aij.runs) * itp.portionSize AS runsCompleted
+                               FROM lmqueue AS lmt
+                               JOIN apiindustryjobs AS aij ON lmt.typeID=aij.outputTypeID AND lmt.activityID=aij.activityID
+                               JOIN `" . $this->config->item('LM_EVEDB') . "`.invTypes itp ON lmt.typeID=itp.typeID
+                              WHERE date_format(beginProductionTime, '%Y%m') = '201409' AND aij.endProductionTime < UTC_TIMESTAMP()
+                                AND ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
+                              GROUP BY lmt.typeID, lmt.activityID, lmt.queueId
+                             ) AS e on a.queueId = e.queueId
+                 ORDER BY  a.typeName, a.activityName";
+    }
+
 }
 
 ?>
