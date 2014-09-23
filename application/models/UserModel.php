@@ -49,6 +49,22 @@ class UserModel extends CI_Model {
         return false;
     }
 
+    public function getCharacters($userID) {
+        $ret = array();
+        $chars = $this->db
+                        ->select("apicorpmembers.characterID")
+                        ->from("apicorpmembers")
+                        ->join("lmchars", "apicorpmembers.characterID=lmchars.charID")
+                        ->where("lmchars.userID", $userID)->get();
+        if ($chars->num_rows > 0) {
+            $idx = 0;
+            foreach ($chars->result() as $char) {
+                $ret[$idx++] = $char->characterID;
+            }
+        }
+        return $ret;
+    }
+
     public function getPermissions($userId) {
         return $this->db
                         ->select("lmrights.rightName")

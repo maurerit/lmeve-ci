@@ -34,7 +34,7 @@ abstract class LMeve_Controller extends CI_Controller {
         if (ENVIRONMENT === "development") {
             $this->output->enable_profiler(TRUE);
         }
-        
+
         $this->benchmark->mark('LMeveControllerLoad_start');
         $this->load->library('session');
         $this->load->model('userModel');
@@ -58,12 +58,13 @@ abstract class LMeve_Controller extends CI_Controller {
         $this->benchmark->mark('LMeveControllerSession_start');
         if (!$granted && $_SERVER['REQUEST_URI'] !== '/main.html' && $_SERVER['REQUEST_URI'] !== '/main/login.html') {
             //TODO: Make this configurable
-            
+
             redirect('main');
         } else if ($granted) {
             $user = $this->userModel->getUser($this->session->userdata('username'));
             $this->data['stylesheet'] = $user->css;
             $this->data['username'] = $user->login;
+            $this->data['userID'] = $user->userID;
             $this->data['permissions'] = $this->userModel->getPermissions($user->userID);
             $this->loadMenu($this->config->item('LM_MENU'));
             $this->loadSidebar();
@@ -109,7 +110,7 @@ abstract class LMeve_Controller extends CI_Controller {
             if ($this->getName() === strtolower($menuConfig['name'])) {
                 $class = 'menua';
             }
-            if (has_permissions($this->data['permissions'], "Administrator,".$menuConfig['rootPerm']))
+            if (has_permissions($this->data['permissions'], "Administrator," . $menuConfig['rootPerm']))
                 $menu = $menu . '<td class="' . $class . '"> <a href="' . $menuConfig['path'] . '">' . $menuConfig['name'] . '</a><br></td>';
         }
 
