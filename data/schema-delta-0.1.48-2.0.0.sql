@@ -3,7 +3,7 @@ create table lmqueue (
 	typeId int(11) NOT NULL,
 	activityId int(11) NOT NULL,
 	runs int(11) NOT NULL,
-	queueCreateTimestamp datetime NOT NULL,
+	queueCreateTimestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	singleton tinyint(3) NOT NULL,
 	stuctureId bigint(11) DEFAULT NULL,
 	PRIMARY KEY ( queueId )

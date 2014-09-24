@@ -43,6 +43,7 @@ class Queue extends LMeve_Controller {
     }
 
     public function index($year, $month) {
+        $this->requireViewQueue();
         if (!$year) {
             $year = date('Y');
             $month = date('m');
@@ -54,12 +55,17 @@ class Queue extends LMeve_Controller {
     }
 
     public function newQueueItem($activity, $typeID) {
+        $object = new stdClass();
+        $object->typeId = $typeID;
         $this->load->helper('form');
         $this->data['activities'] = $this->getActivitiesAsArray();
+        $this->data['selected'] = $activity;
+        $this->data['queueItem'] = $object;
         $this->template->load('layout', 'queue_item', $this->data);
     }
 
     public function edit($id) {
+        $this->requireEditQueue();
         $this->load->helper('form');
         $this->data['queueItem'] = $this->queueModel->getQueueItem($id);
         $this->data['activities'] = $this->getActivitiesAsArray();
@@ -70,8 +76,21 @@ class Queue extends LMeve_Controller {
         $this->template->load('layout', 'queue_item', $this->data);
     }
 
-    public function editSubmit() {
-        echo 'Hello';
+    public function submit() {
+        $this->requireEditQueue();
+        if ($this->input->post('onetime')) {
+            $onetime = 1;
+        } else {
+            $onetime = 0;
+        }
+
+        if ($this->input->post('queueId')) {
+            $this->queueModel->updateQueueItem(
+                    $this->input->post('queueId'), $this->input->post('typeId'), $this->input->post('activity'), $this->input->post('quantity'), $onetime);
+        } else {
+            $this->queueModel->createQueueItem($this->input->post('typeId'), $this->input->post('activity'), $this->input->post('quantity'), $onetime);
+        }
+        redirect('/queue');
     }
 
     public function getName() {
@@ -87,6 +106,18 @@ class Queue extends LMeve_Controller {
         }
 
         return $activities;
+    }
+
+    private function requireEditQueue() {
+        if (!has_permissions($this->data['permissions'], 'Administrator,EditQueue')) {
+            $this->template->load('layout', 'unauthorized');
+        }
+    }
+
+    private function requireViewQueue() {
+        if (!has_permissions($this->data['permissions'], 'Administrator,ViewQueue')) {
+            $this->template->load('layout', 'unauthorized');
+        }
     }
 
 }

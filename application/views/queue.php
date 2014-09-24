@@ -19,21 +19,21 @@ $rights = has_permissions($permissions, "Administrator,EditQueue");
 <?php
 switch ($month) {
     case 1:
-        $NEXTMONTH = str_pad(2,2,"0",STR_PAD_LEFT);
+        $NEXTMONTH = str_pad(2, 2, "0", STR_PAD_LEFT);
         $NEXTYEAR = $year;
         $PREVMONTH = 12;
         $PREVYEAR = $year - 1;
         break;
     case 12:
-        $NEXTMONTH = str_pad(1,2,"0",STR_PAD_LEFT);
+        $NEXTMONTH = str_pad(1, 2, "0", STR_PAD_LEFT);
         $NEXTYEAR = $year + 1;
         $PREVMONTH = 11;
         $PREVYEAR = $year;
         break;
     default:
-        $NEXTMONTH = str_pad($month + 1,2,"0",STR_PAD_LEFT);
+        $NEXTMONTH = str_pad($month + 1, 2, "0", STR_PAD_LEFT);
         $NEXTYEAR = $year;
-        $PREVMONTH = str_pad($month - 1,2,"0",STR_PAD_LEFT);
+        $PREVMONTH = str_pad($month - 1, 2, "0", STR_PAD_LEFT);
         $PREVYEAR = $year;
 }
 ?>
@@ -49,7 +49,7 @@ switch ($month) {
         <td>
             <?php
             echo form_open("/queue/$NEXTYEAR/$NEXTMONTH");
-            echo form_submit('prev','next month');
+            echo form_submit('prev', 'next month');
             echo form_close();
             ?>
         </td>
@@ -115,7 +115,13 @@ switch ($month) {
                 ?>
             </td>
             <td>
-                <?php echo $queueItem->runsDone; ?>
+                <?php
+                if (!$queueItem->runsDone) {
+                    echo 0;
+                } else {
+                    echo $queueItem->runsDone;
+                }
+                ?>
             </td>
             <td>
                 <?php echo $queueItem->runs; ?>

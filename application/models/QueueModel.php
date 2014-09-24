@@ -30,15 +30,35 @@ class QueueModel extends CI_Model {
 
     public function getQueueItem($id) {
         return $this->db
-                ->select("lmqueue.*,invTypes.typeName")
-                ->from('lmqueue')
-                ->join("`".$this->config->item('LM_EVEDB')."`.invTypes","lmqueue.typeID = invTypes.typeID")
-                ->where('queueId',$id)->get()->row();
+                        ->select("lmqueue.*,invTypes.typeName")
+                        ->from('lmqueue')
+                        ->join("`" . $this->config->item('LM_EVEDB') . "`.invTypes", "lmqueue.typeID = invTypes.typeID")
+                        ->where('queueId', $id)->get()->row();
     }
 
     public function getQueue($year, $month) {
         $sql = $this->queueQuery($year, $month);
         return $this->db->query($sql)->result();
+    }
+
+    public function updateQueueItem($queueId, $typeId, $activityId, $quantity, $singleton) {
+
+        $this->db
+                ->where('queueId', $queueId)
+                ->update('lmqueue', array('typeId' => $typeId,
+                    'activityId' => $activityId,
+                    'runs' => $quantity,
+                    'singleton' => $singleton)
+        );
+    }
+
+    public function createQueueItem($typeId, $activityId, $quantity, $singleton) {
+        $this->db
+                ->insert('lmqueue', array('typeId' => $typeId,
+                    'activityId' => $activityId,
+                    'runs' => $quantity,
+                    'singleton' => $singleton)
+        );
     }
 
     private function queueQuery($year, $month) {
@@ -55,7 +75,7 @@ class QueueModel extends CI_Model {
                                FROM lmqueue AS lmt
                                JOIN `" . $this->config->item('LM_EVEDB') . "`.invTypes AS itp ON lmt.typeID=itp.typeID
                                JOIN apiindustryjobs aij ON lmt.typeID=aij.outputTypeID AND lmt.activityID=aij.activityID
-                              WHERE date_format(beginProductionTime, '%Y%m') = '201409'
+                              WHERE date_format(beginProductionTime, '%Y%m') = '${year}${month}'
                                 AND ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
                               GROUP BY lmt.typeID, lmt.activityID, lmt.queueId
                              ) AS b ON a.queueId = b.queueId
@@ -81,7 +101,7 @@ class QueueModel extends CI_Model {
                                FROM lmqueue AS lmt
                                JOIN apiindustryjobs AS aij ON lmt.typeID=aij.outputTypeID AND lmt.activityID=aij.activityID
                                JOIN `" . $this->config->item('LM_EVEDB') . "`.invTypes itp ON lmt.typeID=itp.typeID
-                              WHERE date_format(beginProductionTime, '%Y%m') = '201409' AND aij.endProductionTime < UTC_TIMESTAMP()
+                              WHERE date_format(beginProductionTime, '%Y%m') = '${year}${month}' AND aij.endProductionTime < UTC_TIMESTAMP()
                                 AND ((singleton=1 AND date_format(lmt.queueCreateTimestamp, '%Y%m') = '${year}${month}') OR (singleton=0))
                               GROUP BY lmt.typeID, lmt.activityID, lmt.queueId
                              ) AS e on a.queueId = e.queueId

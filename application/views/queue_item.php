@@ -1,9 +1,11 @@
 <table class="lmframework">
-    <?php echo form_open('/queue/editSubmit'); ?>
+    <?php echo form_open('/queue/submit'); ?>
     <tr>
         <td width="150" class="tab">Item:</td>
         <td width="200" class="tab">
             <?php
+            echo form_hidden('typeId', $queueItem->typeId);
+            echo form_hidden('queueId', $queueItem->queueId);
             if ($queueItem) {
                 echo $queueItem->typeName;
             } else {
@@ -24,7 +26,7 @@
     </tr>
     <tr>
         <td>One time queue:</td>
-        <td><?php echo form_checkbox('onetime', 'onetime', $onetime)?></td>
+        <td><?php echo form_checkbox('onetime', 'onetime', $onetime) ?></td>
     </tr>
 </table>
 <div class = "tleft">
