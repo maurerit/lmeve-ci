@@ -1,0 +1,1 @@
+<span>Wallet view</span>

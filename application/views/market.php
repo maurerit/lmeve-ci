@@ -1,0 +1,1 @@
+<span>Market view</span>

@@ -1,0 +1,2 @@
+<span>Statistics view</span>
+

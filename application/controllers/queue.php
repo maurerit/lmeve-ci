@@ -16,6 +16,18 @@
  * limitations under the License.
  */
 
+/**
+ * The Queue is really more of a corporate work list.  Instead of micromanaging
+ * tasks, now an administrator can create a bunch of 'bucket tasks' through the
+ * queue here and see the status of the build from a higher level instead of
+ * micromanaging the tasks per user.
+ * 
+ * This was born out of the reboot of LH where all the tasks being created were
+ * one timers due to lack of knowledge into how much of each could/should be
+ * built per month.
+ * 
+ * @author maurerit
+ */
 class Queue extends LMeve_Controller {
 
     function __construct() {

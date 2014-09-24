@@ -1,0 +1,1 @@
+<span>Characters view</span>

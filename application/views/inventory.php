@@ -1,0 +1,1 @@
+<span>Inventory view</span>
