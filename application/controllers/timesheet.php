@@ -1,9 +1,11 @@
 <?php
 
 /**
- * Description of timesheet
+ * Timesheet is one of the original views written by Rox Lukas and this is its
+ * controller in the new CodeIgniter version of the app.
  *
- * @author Rox Lukas
+ * @author Lukas Rox
+ * @author maurerit - CI Version
  */
 class Timesheet extends LMeve_Controller {
 
