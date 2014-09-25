@@ -65,8 +65,8 @@ $EC_PRICE_TO_USE_FOR_SELL = array('type' => 'sell', 'price' => 'min');
 
 $LM_MENU = array(
     array('path' => '/timesheet.html', 'name' => 'Timesheet', 'rootPerm' => 'ViewTimeSheet'),
-    array('path' => '/queue.html', 'name' => 'Queue', 'rootPerm' => 'ViewQueue'),
     array('path' => '/statistics.html', 'name' => 'Statistics', 'rootPerm' => 'All'),
+    array('path' => '/queue.html', 'name' => 'Queue', 'rootPerm' => 'ViewQueue'),
     array('path' => '/tasks.html', 'name' => 'Tasks', 'rootPerm' => 'ViewOwnTasks'),
     array('path' => '/characters.html', 'name' => 'Characters', 'rootPerm' => 'All'),
     array('path' => '/database.html', 'name' => 'Database', 'rootPerm' => 'ViewDatabase'),

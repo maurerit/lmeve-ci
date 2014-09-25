@@ -102,7 +102,7 @@ switch ($month) {
             <td style="padding: 0px; width: 32px;">
                 <?php
                 itemhrefedit($queueItem->typeID);
-                echo("<img src=\"/ccp_img/${$queueItem->typeID}_32.png\" title=\"${$queueItem->typeName}\" />");
+                echo('<img src="/ccp_img/' . $queueItem->typeID . '_32.png" title="' . $queueItem->typeName . '" />');
                 echo('</a>');
                 ?>
             </td>
