@@ -27,7 +27,8 @@ class Main extends LMeve_Controller {
 
     public function index() {
         if ($this->session->userdata('granted')) {
-            
+            $idx = $this->userModel->getUserDefaultPage($this->data['userID']);
+            $this->loadViewById($idx->defaultPage);
         } else {
             $this->loadCsrf();
             $this->load->view('login', $this->data);

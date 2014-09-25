@@ -75,6 +75,15 @@ class UserModel extends CI_Model {
                         ->where($this->config->item('USERSTABLE') . ".userID", $userId)
                         ->get()->result();
     }
+    
+    public function getUserDefaultPage($userID) {
+        return $this->db
+                ->select('defaultPage')
+                ->where('userID',$userID)
+                ->limit(1)
+                ->get($this->config->item('USERSTABLE'))
+                ->row();
+    }
 
     public function getCss($userID) {
         $sql = "SELECT `css` FROM `lmusers` WHERE `userID`=?;";

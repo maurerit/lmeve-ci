@@ -64,17 +64,17 @@ $EC_PRICE_TO_USE_FOR_MAN = array('type' => 'sell', 'price' => 'min');
 $EC_PRICE_TO_USE_FOR_SELL = array('type' => 'sell', 'price' => 'min');
 
 $LM_MENU = array(
-    array('path' => '/timesheet.html', 'name' => 'Timesheet', 'rootPerm' => 'ViewTimeSheet'),
-    array('path' => '/statistics.html', 'name' => 'Statistics', 'rootPerm' => 'All'),
-    array('path' => '/queue.html', 'name' => 'Queue', 'rootPerm' => 'ViewQueue'),
-    array('path' => '/tasks.html', 'name' => 'Tasks', 'rootPerm' => 'ViewOwnTasks'),
-    array('path' => '/characters.html', 'name' => 'Characters', 'rootPerm' => 'All'),
-    array('path' => '/database.html', 'name' => 'Database', 'rootPerm' => 'ViewDatabase'),
-    array('path' => '/inventory.html', 'name' => 'Inventory', 'rootPerm' => 'ViewTimeSheet'),
-    array('path' => '/market.html', 'name' => 'Market', 'rootPerm' => 'ViewMarket'),
-    array('path' => '/settings.html', 'name' => 'Settings', 'rootPerm' => 'All'),
-    array('path' => '/wallet.html', 'name' => 'Wallet', 'rootPerm' => 'ViewWallet'),
-    array('path' => '/users.html', 'name' => 'Users', 'rootPerm' => 'ViewUsers')
+    0 => array('path' => '/timesheet.html', 'name' => 'Timesheet', 'rootPerm' => 'ViewTimeSheet'),
+    8 => array('path' => '/statistics.html', 'name' => 'Statistics', 'rootPerm' => 'All'),
+    11 => array('path' => '/queue.html', 'name' => 'Queue', 'rootPerm' => 'ViewQueue'),
+    1 => array('path' => '/tasks.html', 'name' => 'Tasks', 'rootPerm' => 'ViewOwnTasks'),
+    9 => array('path' => '/characters.html', 'name' => 'Characters', 'rootPerm' => 'All'),
+    10 => array('path' => '/database.html', 'name' => 'Database', 'rootPerm' => 'ViewDatabase'),
+    2 => array('path' => '/inventory.html', 'name' => 'Inventory', 'rootPerm' => 'ViewTimeSheet'),
+    3 => array('path' => '/market.html', 'name' => 'Market', 'rootPerm' => 'ViewMarket'),
+    5 => array('path' => '/settings.html', 'name' => 'Settings', 'rootPerm' => 'All'),
+    6 => array('path' => '/wallet.html', 'name' => 'Wallet', 'rootPerm' => 'ViewWallet'),
+    7 => array('path' => '/users.html', 'name' => 'Users', 'rootPerm' => 'ViewUsers')
 );
 
 /* * ************************************************************************************************************************************

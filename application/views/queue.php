@@ -85,6 +85,9 @@ switch ($month) {
     <th>
         Success
     </th>
+    <th>
+        Kit
+    </th>
 </thead>
 <tbody>
     <?php foreach ($queueItems as $queueItem): ?>
@@ -94,7 +97,9 @@ switch ($month) {
                 if ($rights)
                     editqueuehrefedit($queueItem->queueId);
                 echo($queueItem->activityName);
-                echo("&nbsp;<img src=\"/ccp_icons/38_16_208.png\" style=\"vertical-align: middle;\" />");
+                ?>
+                &nbsp;<img src="/ccp_icons/38_16_208.png" style="vertical-align: middle;" />
+                <?php
                 if ($rights)
                     echo('</a>');
                 ?>
@@ -102,17 +107,16 @@ switch ($month) {
             <td style="padding: 0px; width: 32px;">
                 <?php
                 itemhrefedit($queueItem->typeID);
-                echo('<img src="/ccp_img/' . $queueItem->typeID . '_32.png" title="' . $queueItem->typeName . '" />');
-                echo('</a>');
                 ?>
+                <img src="/ccp_img/' <?php echo $queueItem->typeID ?> '_32.png" title="' <?php echo $queueItem->typeName ?> '" /></a>
             </td>
             <td>
                 <?php
                 itemhrefedit($queueItem->typeID);
                 echo($queueItem->typeName);
-                echo("&nbsp;<img src=\"/ccp_icons/38_16_208.png\" style=\"vertical-align: middle;\" />");
-                echo('</a>');
                 ?>
+                &nbsp;<img src="/ccp_icons/38_16_208.png" style="vertical-align: middle;" /></a>
+
             </td>
             <td>
                 <?php
@@ -151,6 +155,22 @@ switch ($month) {
                     percentbar($realperc, "${$queueItem->jobsSuccess} successful in ${$queueItem->jobsCompleted} attempts");
                 }
                 ?>
+            </td>
+            <td>
+                <?php
+                $remainingRuns = $queueItem->runs - $queueItem->runsDone;
+                if ($remainingRuns < 0)
+                    $remainingRuns = 0;
+                ?>
+                <span title="FULL kit for this task" onclick="getQueueKit('kit_row_<?php echo $queueItem->queueId ?>', 'kit_<?php echo $queueItem->queueId ?>',<?php echo $queueItem->queueId ?>,<?php echo $queueItem->runs ?>)">
+                    <img src="ccp_icons/12_64_3.png" style="width: 24px; height: 24px;" /></span>
+                <span title="REMAINING kit for this task" onclick="getQueueKit('kit_row_<?php echo $queueItem->queueId ?>', 'kit_<?php echo $queueItem->queueId ?>',<?php echo $queueItem->queueId ?>, <?php echo $remainingRuns ?>)">
+                    <img src="ccp_icons/7_64_16.png" style="width: 24px; height: 24px;" /></span>
+            </td>
+        </tr>
+        <tr id="kit_row_<?php echo $queueItem->queueId ?>" style="display: none">
+            <td colspan="8">
+                <div id="kit_<?php echo $queueItem->queueId ?>"><em>Loading kit data...</em></div>
             </td>
         </tr>
     <?php endforeach ?>

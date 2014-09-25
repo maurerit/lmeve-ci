@@ -1,3 +1,8 @@
+<?php
+echo form_open('/queue/delete/' . $queueItem->queueId);
+echo form_submit('ok', 'Delete queue');
+echo form_close();
+?>
 <table class="lmframework">
     <?php echo form_open('/queue/submit'); ?>
     <tr>

@@ -99,7 +99,7 @@ abstract class LMeve_Controller extends CI_Controller {
             if ($user !== false) {
                 $this->session->set_userdata('granted', true);
                 $this->session->set_userdata('username', $user->login);
-                redirect('welcome');
+                redirect('main');
             } else {
                 $this->load->view('login', 'login', $this->data);
             }
@@ -133,6 +133,11 @@ abstract class LMeve_Controller extends CI_Controller {
 
         $this->data['menu'] = $menu;
         $this->benchmark->mark('LMeveControllerLoadMenu_end');
+    }
+    
+    protected function loadViewById($idx) {
+        $menuConfigs = $this->config->item('LM_MENU');
+        redirect(strtolower($menuConfigs[$idx]['name']));
     }
 
     public function loadSidebar() {

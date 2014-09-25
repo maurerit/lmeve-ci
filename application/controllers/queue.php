@@ -87,6 +87,11 @@ class Queue extends LMeve_Controller {
         }
         redirect('/queue');
     }
+    
+    public function delete($queueId) {
+        $this->queueModel->delete($queueId);
+        redirect('/queue');
+    }
 
     public function getName() {
         return 'queue';

@@ -283,6 +283,20 @@ function sub(editbox) {
 		}   
         }
         
+        function getQueueKit(rowID,spanID,taskID,runs) {
+            //toggle the kit row
+            var element=document.getElementById(rowID);
+		if ((element.style.display=="") || (element.style.display=="none")) {
+                    element.style.display="table-row";
+                    //$( '#' + rowID ).slideDown( 800 );    
+                    //make an AJAX call to load kit data
+                    ajax_get('ajax.php?act=GET_KIT2&taskID='+taskID.toString()+'&runs='+runs.toString(),spanID);
+		} else {
+                    element.style.display="none";
+                    //$( '#' + rowID ).slideUp( 600 );
+		}
+        }
+        
         // Hide all paragraphs using a slide up animation over 0.8 seconds
 //$( "p" ).slideUp( 800 );
 // Show all hidden divs using a slide down animation over 0.6 seconds

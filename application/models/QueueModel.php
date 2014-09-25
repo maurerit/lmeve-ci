@@ -60,6 +60,12 @@ class QueueModel extends CI_Model {
                     'singleton' => $singleton)
         );
     }
+    
+    public function delete($queueId) {
+        $this->db
+                ->where('queueId',$queueId)
+                ->delete('lmqueue');
+    }
 
     private function queueQuery($year, $month) {
         return "SELECT a.*, b.runsDone,b.jobsDone,c.jobsSuccess,d.jobsCompleted,e.runsCompleted
