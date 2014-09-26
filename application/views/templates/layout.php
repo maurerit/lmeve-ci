@@ -7,7 +7,7 @@
         <title><?php echo("$LM_APP_NAME $lmver"); ?></title>
         <link type="text/css" href="<?php echo $stylesheet ?>" rel="stylesheet">
         <!--<link rel="stylesheet" href="jquery-ui/css/ui-darkness/jquery-ui-1.10.3.custom.min.css" />-->
-        <link rel="icon" href="favicon.ico" type="image/ico">
+        <link rel="icon" href="/favicon.ico" type="image/ico">
         <script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="/js/jquery-ui-1.10.3.custom.min.js"></script>
         <script type="text/javascript" src="/js/Chart.min.js"></script>
